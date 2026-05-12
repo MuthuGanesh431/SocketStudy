@@ -53,6 +53,106 @@ Socket programming finds applications in various domains, including web developm
 4.	Networked Games: Online multiplayer games rely on socket programming to facilitate communication between game clients and servers.
 5.	RPC mechanisms: which allow processes to execute code on a remote server, often use socket programming for communication.
 
+Client program:
+```
+import socket
+
+# Create socket
+s = socket.socket()
+
+# Get host IP
+host = input("Enter hostname or host IP : ")
+
+# Port number
+port = 8080
+
+# Connect to server
+s.connect((host, port))
+
+print("Connected to chat server")
+
+while True:
+
+    # Receive message
+    incoming_message = s.recv(1024)
+
+    # Decode message
+    incoming_message = incoming_message.decode()
+
+    print("Server :", incoming_message)
+    print()
+
+    # Send message
+    message = input(">> ")
+
+    # Encode message
+    message = message.encode()
+
+    s.send(message)
+
+    print("Sent")
+    print()
+```
+
+Server program:
+
+```
+import socket
+
+# Create socket
+s = socket.socket()
+
+# Get hostname
+host = "127.0.0.1"
+
+print("Server will start on host :", host)
+
+# Port number
+port = 8080
+
+# Bind socket
+s.bind((host, port))
+
+print()
+print("Waiting for connection...")
+print()
+
+# Listen for client
+s.listen(1)
+
+# Accept connection
+conn, addr = s.accept()
+
+print(addr, "Has connected to the server")
+print()
+
+while True:
+
+    # Send message
+    message = input(">> ")
+
+    # Encode message
+    message = message.encode()
+
+    conn.send(message)
+
+    print("Sent")
+    print()
+
+    # Receive message
+    incoming_message = conn.recv(1024)
+
+    # Decode message
+    incoming_message = incoming_message.decode()
+
+    print("Client :", incoming_message)
+    print()
+
+```
+
+output:
+
+<img width="1920" height="1020" alt="Screenshot 2026-05-12 142425" src="https://github.com/user-attachments/assets/6857a3c2-850d-4402-83a7-f242c1e9af3b" />
 
 ## Result:
 Thus the study of Socket Programming Completed Successfully
